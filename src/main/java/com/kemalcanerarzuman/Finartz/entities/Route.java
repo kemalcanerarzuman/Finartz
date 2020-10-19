@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,11 +29,13 @@ public class Route {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int timeInMinutes;
 
-	@Column(name = "departure_id")
-	private int departureId;
+	@ManyToOne
+	@JoinColumn(name = "departure_id")
+	private Airway departure;
 
-	@Column(name = "arrival_id")
-	private int arrivalId;
+	@ManyToOne
+	@JoinColumn(name = "arrival_id")
+	private Airway arrival;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "route", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
@@ -40,17 +44,8 @@ public class Route {
 	public Route() {
 	}
 
-	public Route(int timeInMinutes, int departureId, int arrivalId) {
+	public Route(int timeInMinutes) {
 		this.timeInMinutes = timeInMinutes;
-		this.departureId = departureId;
-		this.arrivalId = arrivalId;
-	}
-
-	public Route(int timeInMinutes, int departureId, int arrivalId, List<Flight> flights) {
-		this.timeInMinutes = timeInMinutes;
-		this.departureId = departureId;
-		this.arrivalId = arrivalId;
-		this.flights = flights;
 	}
 
 	public int getId() {
@@ -69,20 +64,20 @@ public class Route {
 		this.timeInMinutes = timeInMinutes;
 	}
 
-	public int getDepartureId() {
-		return departureId;
+	public Airway getDeparture() {
+		return departure;
 	}
 
-	public void setDepartureId(int departureId) {
-		this.departureId = departureId;
+	public void setDeparture(Airway departure) {
+		this.departure = departure;
 	}
 
-	public int getArrivalId() {
-		return arrivalId;
+	public Airway getArrival() {
+		return arrival;
 	}
 
-	public void setArrivalId(int arrivalId) {
-		this.arrivalId = arrivalId;
+	public void setArrival(Airway arrival) {
+		this.arrival = arrival;
 	}
 
 	public List<Flight> getFlights() {

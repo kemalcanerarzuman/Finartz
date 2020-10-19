@@ -92,6 +92,14 @@ public class RestAPIController {
 
 	@PostMapping("/route")
 	public Route postRoute(@RequestBody Route route) {
+		Airway departure = airwayService.findById(route.getDeparture().getId()).get();
+		Airway arrival = airwayService.findById(route.getArrival().getId()).get();
+		if (departure == null)
+			departure = airwayService.save(route.getDeparture());
+		if (arrival == null)
+			arrival = airwayService.save(route.getArrival());
+		route.setDeparture(departure);
+		route.setArrival(arrival);
 		Route route2 = routeService.save(route);
 		return route2;
 	}

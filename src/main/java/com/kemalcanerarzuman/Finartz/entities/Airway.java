@@ -16,7 +16,7 @@ public class Airway {
 	@Column(name = "id")
 	private int id;
 
-	@Column
+	@Column(name = "name")
 	private String name;
 
 	public Airway() { }
